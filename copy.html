@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta charset="utf-8" />
+<script>
+    $(document).ready(function()
+    {
+        
+        /* $('#form').ajaxForm(function() { 
+            alert("Thank you for your comment!"); 
+        });  */
+       $("#form").on("submit",function(event){
+           event.preventDefault();
+           alert('this is the form submit function'+$('#form').attr('action'));
+           $.ajax({
+            
+            // url: '/submit-student-data',
+            url: $('#form').attr('action'),
+            method: 'Post',
+            data: $('#form').serialize(),
+            success: (res) => {
+                console.log(res);
+                $('#resdata').html(res);
+                alert('yor form submited successfully');
+                jsondata();
+            },
+            error: (err)=>{
+                alert('there is error');
+            }
+            /* data: {
+                email:$('#email').val(),
+                mobile: '123123123123'
+            } */
+
+            
+        })
+       })
+       
+       function jsondata(){
+        $.ajax({
+            
+            // url: '/submit-student-data',
+            url: "/submit-student-json",
+            method: 'Post',
+            data: $('#form').serialize(),
+            success: async (res) => {
+                    const data = await res
+                    console.log('data',data.obj.firstName)
+                // console.log('res '+res);
+                // //var data = JSON.parse(res);
+                // var strdata = JSON.stringify(res.firstName);
+                //console.log('New'+strdata.firstName);
+                $('#resdata1').html("<table border='1'><tr><th>First Name :</th><td>"+data.obj.firstName + "</td></tr><tr><th>Last Name</th><td>" +data.obj.lastName +
+    "</td></tr><tr><th>First Mobile :</th><td>"+ data.obj.mobilE + "</td></tr><tr><th>Email :</th><td>"+ data.obj.emaiL+"</td></tr></table>");
+                // alert('yor form submited successfully');
+            },
+            error: (err)=>{
+                alert('there is error');
+            }
+            /* data: {
+                email:$('#email').val(),
+                mobile: '123123123123'
+            } */
+
+        })
+       }
+    });
+</script>
+    <title></title>
+</head>
+<body>
+    <form action="/submit-student-data" method="post" id="form"  >
+        First Name: <input name="firstName" type="text" id="fname"/><br>
+        Last Name: <input name="lastName" type="text" id="lname" /> <br>
+         MOBILE: <input name="mobile" type="number" id="m"/> <br>
+       EMAIL: <input name="email" type="text" id="email"/><br>
+        <div id="resdata">
+            
+        </div>
+        <div id ="resdata1">
+
+        </div>
+  
+
+        <!-- MOBILE: <input name="MOBILE" type="number" /> <br />
+        EMAIL: <input name="EMAIL" type="text" id="email" /> <br /></div> -->
+        <input type="submit"   />
+    </form>
+</body>
+</html>
+
+<!-- <script>
+    <script type="text/javascript">
+    $(document).ready(function() { 
+        $('#formoid').ajaxForm(function() { 
+            alert("Thank you for your comment!"); 
+        }); 
+    });
+</script>
+</script> -->
+
+<!-- 
+<form id="formoid" action="studentFormInsert.php" title="" method="post">
+    <div>
+        <label class="title">First Name</label>
+        <input type="text" id="name" name="name" >
+    </div>
+    <div>
+        <label class="title">Name</label>
+        <input type="text" id="name2" name="name2" >
+    </div>
+    <div>
+        <input type="submit" id="submitButton"  name="submitButton" value="Submit">
+    </div>
+</form> -->

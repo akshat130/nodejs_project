@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="custom_script.js"></script>
+    <meta charset="utf-8" />
+    <script>
+        var rows = [];
+        var idGET;
+        function editData(id) {
+            alert('asg');
+            idGET = id;
+            $.ajax({
+
+                url: '/edit-data',
+                method: 'post',
+                data: { "index": id },
+                success: async (res) => {
+
+                    console.log('aaaaaaaaaa', res);
+                    $('#fname1').val(res.firstName);
+                    $('#lname1').val(res.lastName);
+                    $('#m1').val(res.mobile);
+                    $('#email1').val(res.Email);
+                    document.getElementById('edit').style.display = "block";
+                },
+                error: (err) => {
+                    alert('there is error');
+                }
+            })
+        }
+        function updateData() {
+            alert('asg');
+            $('#dataid1').val(idGET);
+            $.ajax({
+
+                url: '/update-data',
+                method: 'post',
+                data: $("#form2").serialize(),
+                success: async (res) => {
+                    console.log(res);
+
+                },
+                error: (err) => {
+                    alert('there is error');
+                }
+            })
+        }
+        function showdata() {
+            $.ajax({
+                url: '/list-data',
+                method: 'get',
+                success: (res) => {
+                    console.log(res);
+                    var html = "<table border 5|5>";
+                    if (res.length > 0) {
+                        for (var i = 0; i < res.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + res[i].firstName + "</td>";
+                            html += "<td>" + res[i].lastName + "</td>";
+                            html += "<td>" + res[i].mobile + "</td>";
+                            html += "<td>" + res[i].Email + "</td>";
+                            html += "<td><button onclick='editData(" + i + ")'>Edit</button>";
+                            html += "<input type='button'class='btn btn-secondary' value='Delete'onclick='deleteData(" + i + ")'></td>";
+                            html += "</tr>";
+
+                        }
+                    } else {
+                        html += "<tr><td>No Record Found</td></tr>";
+                    }
+                    html += "</table>";
+                    console.log(html);
+                    $("#resdata").html(html);
+                },
+                error: (err) => {
+                    alert('there is error');
+                }
+            })
+        }
+        function jsondata() {
+            $.ajax({
+
+                url: '/submit-student-data',
+
+                method: 'post',
+                data: $("#form").serialize(),
+                success: async (res) => {
+                    showdata();
+                },
+                error: (err) => {
+                    alert('there is error');
+                }
+            })
+        }
+        function deleteData(id) {
+            $.ajax({
+                url: '/deleteData',
+                method: 'post',
+                data: { "index": id },
+                success: async (res) => {
+                    showdata();
+                },
+                error: (err) => {
+                    alert('there is error');
+                }
+            })
+            console.log('rows', rows);
+            rows.splice(id, 1);
+            showdata();
+        }
+        $(document).ready(function () {
+            $.ajax({
+                url: '/list-data',
+                method: 'get',
+                success: (res) => {
+                    rows.push(res);
+                    console.log(rows);
+                    var html = "<table border 5|5>";
+                    if (res.length > 0) {
+                        for (var i = 0; i < res.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + res[i].firstName + "</td>";
+                            html += "<td>" + res[i].lastName + "</td>";
+                            html += "<td>" + res[i].mobile + "</td>";
+                            html += "<td>" + res[i].Email + "</td>";
+                            html += "<td><button onclick='editData(" + i + ")'>Edit</button>";
+                            html += "<input type='button'class='btn btn-secondary' value='Delete'onclick='deleteData(" + i + ")'></td>";
+                            html += "</tr>";
+                        }
+                    } else {
+                        html += "<tr><td>No Record Found</td></tr>";
+                    }
+                    html += "</table>";
+                    console.log(html);
+                    $("#resdata").html(html);
+                },
+                error: (err) => {
+                    alert('there is error');
+                }
+            })
+        })
+    </script>
+    <title></title>
+</head>
+<body>
+    <form action="/submit-student-data" method="post" id="form">
+        First Name: <input name="firstName" type="text" id="fname" /><br>
+        Last Name: <input name="lastName" type="text" id="lname" /> <br>
+        MOBILE: <input name="mobile" type="number" id="m" /> <br>
+        EMAIL: <input name="email" type="text" id="email" /><br>
+        <input type="button" value="submit" onclick="jsondata()" />
+    </form>
+    <div id="resdata">
+
+    </div>
+
+    <div id="resdata1">
+
+    </div>
+
+    <div id="edit" style="display: none;">
+        <form id="form2">
+            <input name="dataid" type="hidden" id="dataid1" /><br>
+            First Name: <input name="firstName" type="text" id="fname1" /><br>
+            Last Name: <input name="lastName" type="text" id="lname1" /> <br>
+            MOBILE: <input name="mobile" type="number" id="m1" /> <br>
+            EMAIL: <input name="email" type="text" id="email1" /><br>
+            <input type="submit" onclick="updateData()" />
+        </form>
+    </div>
+
+</body>
+
+</html>

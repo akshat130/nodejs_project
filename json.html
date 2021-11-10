@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <script>
+        var rows = [];
+        // function myFunction() {
+        // 	//const name = [];
+        // 	// const newarr = [];
+        // 	// document.getElementById("fname").innerHTML = name;
+        // 	// var firstName = document.getElementById("fname").value;
+        // 	// var lastName = document.getElementById("lname").value;
+        // 	//name.push(firstName, lastName);
+
+        // 	//document.getElementById("val").innerHTML = name;
+        // 	saveData();
+
+        // }
+        function deleteData(id) {
+            // var data = document.getElementById("fname").value;
+            // var data1 = document.getElementById("lname").value;
+            alert(id);
+            console.log('rows', id);
+            console.log('rows_obj', rows[id]);
+            document.getElementById("del").deleteRow(id);
+            // delete rows[id];
+            rows.splice(id, 1);
+            console.log('rowsasdfgasd', rows);
+            // alert("record deleted")
+            //alert(rows);            
+            showData();
+
+        }
+        function updateData(id){
+            document.getElementById("box1").style.display="block";
+            
+             document.getElementById("fname1").value = rows[id].firstname;
+             document.getElementById("lname1").value = rows[id].lastname;
+             document.getElementById("dataid").value = id;
+
+        }
+
+        function editData(){
+            var newid = document.getElementById("dataid").value;
+            
+            rows[newid].firstname = document.getElementById("fname1").value,
+            rows[newid].lastname = document.getElementById("lname1").value;
+            console.log(rows[newid]);
+            showData();
+        }
+
+
+
+
+        function saveData() {
+            console.log('befor ', rows);
+            var data = document.getElementById("fname").value;
+            var data1 = document.getElementById("lname").value;
+
+            var obj = {
+                firstname: data,
+                lastname: data1
+            }
+
+            rows.push(obj);
+            // console.log(rows);	
+            // console.log(obj)	;						
+
+            showData();
+            
+
+
+        }
+
+        function showData(){
+
+            var html = "<table id='del' border='5|5'>";
+            // <tr><th>FIRST NAME</th><th>LAST NAME</th></tr>
+
+            //console.log(rows);
+            for (var i = 0; i < rows.length; i++) {
+                console.log('rows', rows[i])
+                html += "<tr>";
+                html += "<td>" + rows[i].firstname + "</td>";
+                html += "<td>" + rows[i].lastname + "</td>";
+                html += "<td>  <input type='button' value='Edit' onclick='updateData("+i+")'><input type='button' value='Delete'onclick='deleteData(" + i + ")'></td>";
+                html += "</tr>";
+
+            }
+            html += "</table>";
+            document.getElementById("box").innerHTML = html;
+        }
+
+
+
+    </script>
+</head>
+
+<body>
+    <h2>Basic Information</h2>
+    <form>
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname">
+        <input type="button" value="Submit" onclick="saveData()">
+        <div id="box">
+
+        </div>
+    </form>
+
+    <div id="box1" style="display: none;">
+        <h2>Update details</h2>
+
+        <form2>
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname1" name="fname"><br>
+            <label for="lname">Last name:</label><br>
+            <input type="text" id="lname1" name="lname">
+            <input type="hidden" id="dataid" name="dataid">
+            <input type="button" value="Submit" onclick="editData()">
+
+
+
+        </form2>
+    </div>
+
+
+</body>
+
+</html>

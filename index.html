@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script>
+        function myFunction()
+        {
+            
+            document.getElementById("fname1").value = document.getElementById("fname").value;
+
+        }
+        function myFunction1()
+        {
+            
+            document.getElementById("lname1").value = document.getElementById("lname").value;
+
+        }
+        function myFunction2()
+        {
+            
+            document.getElementById("m1").value = document.getElementById("m").value;
+
+        }
+        function myFunction3()
+        {
+            
+            document.getElementById("email1").value = document.getElementById("email").value;
+
+        }
+        
+        function valideEmail(email){
+            //var email = document.getElementById("email").value
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if(email.match(mailformat))
+            {
+                alert("Valid email address!");
+                return true;
+
+            }
+            else{
+                alert("You have entered an invalid email address!");
+                return false;
+            }
+           
+        }
+
+        
+        
+        function checkname(e=''){
+            // e.preventDefault();
+            var fname=document.getElementById("fname").value;
+            var email = document.getElementById("email").value
+            var err=0;
+        alert(email);
+        if(fname=="")
+        {
+            err=1;
+            alert("first name is required")
+            // alert(e);
+        }
+        
+            var lname=document.getElementById("lname").value;
+        //alert(lname);
+        if(lname=="")
+        {
+            err=1;
+            alert("last name is required")
+        }
+        if(email!="")
+        {
+            err=1;
+            valideEmail(email);
+        }
+        if(err=='1'){
+            console.log('e', e);
+           // alert('there is error');
+            return false;
+        }
+       
+
+            // e.preventDefault();
+
+        // return false;
+
+        }
+        
+    </script>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <form action="/submit-student-data" method="post" onsubmit="return checkname(this)" >
+        <div>First Name: <input name="firstName" type="text" id="fname" onblur="myFunction()"/>  First Name: <input name="firstName" type="text" id="fname1"/> <br /></div>
+        <div></div>Last Name: <input name="lastName" type="text" id="lname" onblur="myFunction1()" /> Last Name: <input name="lastName" type="text" id="lname1" /> <br />
+        <div></div>MOBILE: <input name="MOBILE" type="number" id="m" onblur="myFunction2()"/>  MOBILE: <input name="MOBILE" type="number" id="m1"/> <br />
+       <div>EMAIL: <input name="EMAIL" type="text" id="email"  onblur="myFunction3()" />EMAIL: <input name="EMAIL" type="text" id="email1" /> <br /></div>
+       
+        
+        <!-- MOBILE: <input name="MOBILE" type="number" /> <br />
+        EMAIL: <input name="EMAIL" type="text" id="email" /> <br /></div> -->
+        <input type="submit" onClick="alert(this)"  />
+    </form>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html>
+<body>
+
+
+
+<button onclick="document.getElementById('myImage').src='https://media.istockphoto.com/photos/isolated-shot-of-opened-blank-cardboard-box-on-white-background-picture-id520619396?k=20&m=520619396&s=612x612&w=0&h=4f0ZqIMkVHEIhq76j8qmI-nc55cBhx-nqgITFtoW6WI='">OPEN BOX</button>
+
+<img id="myImage" src="" style="width:400px">
+
+<button onclick="document.getElementById('myImage').src='https://media.istockphoto.com/photos/carboard-box-wclippping-path-picture-id157318026?k=20&m=157318026&s=612x612&w=0&h=mTVCRfqtS2zKtbfKu_duQy5mvegvJqs8Z7mgQlZ06ck='">CLOSE THE BOX</button>
+
+</body>
+</html> -->

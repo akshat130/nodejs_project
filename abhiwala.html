@@ -1,0 +1,31 @@
+function saveData() {
+    var [rows] = [
+        {
+            firstname =document.getElementById("fname").value,
+            lastname =document.getElementById("lname").value
+        },
+        {
+            firstname =document.getElementById("fname").value,
+            lastname =document.getElementById("lname").value
+        },
+        {
+            firstname =document.getElementById("fname").value,
+            lastname =document.getElementById("lname").value
+        }
+
+    ]
+
+}
+
+function showData() {
+    var html = "<table border='1|1'>";
+    for (var i = 0; i < rows.length; i++) {
+        html += "<tr>";
+        html += "<td>" + rows[i].firstname + "</td>";
+        html += "<td>" + rows[i].lastname + "</td>";
+        html += "</tr>";
+
+    }
+
+
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+
+        var rows = [];
+
+        function deleteData(id) {
+
+            alert(id);
+            console.log('rows', id);
+            console.log('rows_obj', rows[id]);
+
+            rows.splice(id, 1);
+            console.log('rowsasdfgasd', rows);
+
+            showData();
+
+
+        }
+        function updateData(id) {
+            alert(id);
+            document.getElementById("username1").value = rows[id].username12;
+            document.getElementById("email1").value = rows[id].emailid12;
+            document.getElementById("dataid").value = id;
+            document.getElementById("box1").style.display = "block";
+
+
+
+        }
+
+        function editData() {
+            var uname = document.getElementById("username1").value;
+            var email = document.getElementById("email1").value
+            var err = 0;
+            alert(email);
+            if (uname == "") {
+                err = 1;
+                alert("username is required")
+                // alert(e);
+            }
+            if (email == "") {
+                err = 1
+                alert("email is required")
+
+            }
+
+
+            if (email != "") {
+
+                var validemail = valideEmail(email);
+                if (!validemail) {
+                    err = 1
+                }
+            }
+            if (err == '1') {
+
+                alert('there is error');
+                return false;
+            }
+            var newid = document.getElementById("dataid").value;
+
+            rows[newid].username12 = document.getElementById("username1").value,
+                rows[newid].emailid12 = document.getElementById("email1").value;
+            console.log(rows[newid]);
+            showData();
+            $('#editMOdal').modal('hide')
+            $('#form2')[0].reset();
+        }
+
+
+        $(document).ready(function () {
+            $(".test").click(function () {
+                $(".form-warp").toggleClass("show");
+            });
+        });
+        function valideEmail(email) {
+            //var email = document.getElementById("email").value
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (email.match(mailformat)) {
+                alert("Valid email address!");
+                return true;
+
+            }
+            else {
+                alert("You have entered an invalid email address!");
+                return false;
+            }
+
+        }
+
+
+
+
+        function saveData() {
+            var uname = document.getElementById("username").value;
+            var email = document.getElementById("emailid").value
+            var err = 0;
+            alert(email);
+            if (uname == "") {
+                err = 1;
+                alert("username is required")
+                // alert(e);
+            }
+            if (email == "") {
+                err = 1
+                alert("email is required")
+
+            }
+
+
+            if (email != "") {
+
+                var validemail = valideEmail(email);
+                if (!validemail) {
+                    err = 1
+                }
+            }
+            if (err == '1') {
+
+                alert('there is error');
+                return false;
+            }
+
+            var data = document.getElementById("username").value;
+            var data1 = document.getElementById("emailid").value;
+
+            var obj = {
+                username12: data,
+                emailid12: data1
+            }
+
+
+            rows.push(obj);
+
+            $('#addMOdal').modal('hide')
+            $('#form')[0].reset();
+
+            showData();
+
+
+
+        }
+
+        function showData() {
+
+            var html = "";
+            if (rows.length > 0) {
+                for (var i = 0; i < rows.length; i++) {
+                    html += "<tr>";
+                    html += "<td>" + rows[i].username12 + "</td>";
+                    html += "<td>" + rows[i].emailid12 + "</td>";
+                    html += "<td><button id='edit' class='btn btn-primary float-right' data-bs-toggle='modal' data-bs-target='#editMOdal' onclick='updateData(" + i + ")'>Edit</button>";
+                    html += "<input type='button'class='btn btn-secondary' value='Delete'onclick='deleteData(" + i + ")'></td>";
+                    html += "</tr>";
+
+                }
+            } else {
+                html += "<tr><td>No Record Found</td></tr>";
+            }
+
+            console.log(html);
+            $("#dataList").find('tbody').html(html);
+
+        }
+
+
+
+
+    </script>
+
+<body>
+
+    <!-- <form>
+  Username:<br>
+  <input type="text" name="username">
+  <br>
+  Email id:<br>
+  <input type="text" name="email_id">
+  <br><br>
+  <input type="submit" value="Submit">
+</form> -->
+
+</body>
+
+<body <div class="container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="form-bg">
+
+                    <div class="title">
+                        <h1>My new form</h1>
+                        <p>This is some new.</p>
+                    </div>
+                    <div>
+                        <button id="add" class="btn btn-primary float-right" data-bs-toggle="modal"
+                            data-bs-target="#addMOdal">Add</button>
+
+
+
+                        <table class="table table-striped table-bordered" id="dataList">
+                            <thead>
+                                <tr id="test">
+                                    <th>User Name</th>
+                                    <th>Email Id</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- Button trigger modal -->
+                <!-- <button type="button" class="btn btn-primary" onclick="showData()">
+                            Add
+                        </button> -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="form-warp" id="divid">
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="addMOdal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <h2>Basic Information</h2>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailid">Email id:</label>
+                            <input type="text" id="emailid" name="emailid">
+                        </div>
+                        <div class="form-group">
+
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="button" form="form" class="btn btn-secondary" value="Submit" onclick="saveData()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editMOdal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2>Update details</h2>
+                    <form id="form2">
+                        <label for="username">Username:</label><br>
+                        <input type="text" id="username1" name="username"><br>
+                        <label for="emailid">Email id:</label><br>
+                        <input type="text" id="email1" name="emailid">
+                        <input type="hidden" id="dataid" name="dataid">
+                        <input type="button" class='btn btn-secondary' value="Submit" onclick="editData()">
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="button" form="form" class="btn btn-secondary" value="Submit" onclick="saveData()"> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .form-warp {
+            display: none;
+        }
+
+        .form-warp.show {
+            display: block;
+        }
+
+        body {
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        .form-bg {
+            margin-top: 50px;
+            background-color: rgb(243, 240, 240);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
