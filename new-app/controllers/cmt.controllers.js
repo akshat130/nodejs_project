@@ -46,7 +46,7 @@ exports.findOne = (req, res) => {
             });
         }
         return res.status(500).send({
-            message: 'error recived when the note finding with id' + req.params.cmtId
+            message: 'error recived when the  note finding with id' + req.params.cmtId
         });
 
     });
